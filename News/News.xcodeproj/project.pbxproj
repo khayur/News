@@ -19,9 +19,12 @@
 		85A2D390279F218500D47C3C /* EmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2D38E279F218500D47C3C /* EmptyTableViewCell.swift */; };
 		85A2D391279F218500D47C3C /* EmptyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85A2D38F279F218500D47C3C /* EmptyTableViewCell.xib */; };
 		85A2D393279F21BE00D47C3C /* UIButton+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2D392279F21BE00D47C3C /* UIButton+Additions.swift */; };
+		85A2D396279F23FA00D47C3C /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2D395279F23FA00D47C3C /* NavigationController.swift */; };
+		85A2D39A279F270600D47C3C /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2D398279F270600D47C3C /* NewsTableViewCell.swift */; };
+		85A2D39B279F270600D47C3C /* NewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85A2D399279F270600D47C3C /* NewsTableViewCell.xib */; };
 		85D3F5F5279F07EA00B229F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D3F5F4279F07EA00B229F1 /* AppDelegate.swift */; };
 		85D3F5F7279F07EA00B229F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D3F5F6279F07EA00B229F1 /* SceneDelegate.swift */; };
-		85D3F5F9279F07EA00B229F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D3F5F8279F07EA00B229F1 /* ViewController.swift */; };
+		85D3F5F9279F07EA00B229F1 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D3F5F8279F07EA00B229F1 /* NewsViewController.swift */; };
 		85D3F5FC279F07EA00B229F1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85D3F5FA279F07EA00B229F1 /* Main.storyboard */; };
 		85D3F5FE279F07EC00B229F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85D3F5FD279F07EC00B229F1 /* Assets.xcassets */; };
 		85D3F601279F07EC00B229F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85D3F5FF279F07EC00B229F1 /* LaunchScreen.storyboard */; };
@@ -40,10 +43,13 @@
 		85A2D38E279F218500D47C3C /* EmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableViewCell.swift; sourceTree = "<group>"; };
 		85A2D38F279F218500D47C3C /* EmptyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyTableViewCell.xib; sourceTree = "<group>"; };
 		85A2D392279F21BE00D47C3C /* UIButton+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Additions.swift"; sourceTree = "<group>"; };
+		85A2D395279F23FA00D47C3C /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		85A2D398279F270600D47C3C /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
+		85A2D399279F270600D47C3C /* NewsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsTableViewCell.xib; sourceTree = "<group>"; };
 		85D3F5F1279F07EA00B229F1 /* News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = News.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85D3F5F4279F07EA00B229F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85D3F5F6279F07EA00B229F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		85D3F5F8279F07EA00B229F1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		85D3F5F8279F07EA00B229F1 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		85D3F5FB279F07EA00B229F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		85D3F5FD279F07EC00B229F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85D3F600279F07EC00B229F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -92,6 +98,7 @@
 			children = (
 				85A2D387279F20FD00D47C3C /* BaseTableViewCell */,
 				85A2D385279F209500D47C3C /* EmptyTableViewCell */,
+				85A2D397279F26E100D47C3C /* NewsTableViewCell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -103,6 +110,23 @@
 				85A2D38B279F217200D47C3C /* BaseTableViewCell.xib */,
 			);
 			path = BaseTableViewCell;
+			sourceTree = "<group>";
+		};
+		85A2D394279F23C600D47C3C /* NavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				85A2D395279F23FA00D47C3C /* NavigationController.swift */,
+			);
+			path = NavigationController;
+			sourceTree = "<group>";
+		};
+		85A2D397279F26E100D47C3C /* NewsTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				85A2D398279F270600D47C3C /* NewsTableViewCell.swift */,
+				85A2D399279F270600D47C3C /* NewsTableViewCell.xib */,
+			);
+			path = NewsTableViewCell;
 			sourceTree = "<group>";
 		};
 		85D3F5E8279F07E900B229F1 = {
@@ -155,7 +179,8 @@
 		85D3F60B279F1C5800B229F1 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				85D3F5F8279F07EA00B229F1 /* ViewController.swift */,
+				85A2D394279F23C600D47C3C /* NavigationController */,
+				85D3F5F8279F07EA00B229F1 /* NewsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -276,6 +301,7 @@
 				85D3F601279F07EC00B229F1 /* LaunchScreen.storyboard in Resources */,
 				85A2D38D279F217200D47C3C /* BaseTableViewCell.xib in Resources */,
 				85A2D37D279F1F0C00D47C3C /* LoadingView.xib in Resources */,
+				85A2D39B279F270600D47C3C /* NewsTableViewCell.xib in Resources */,
 				85A2D391279F218500D47C3C /* EmptyTableViewCell.xib in Resources */,
 				85D3F5FE279F07EC00B229F1 /* Assets.xcassets in Resources */,
 				85D3F5FC279F07EA00B229F1 /* Main.storyboard in Resources */,
@@ -291,12 +317,14 @@
 			files = (
 				85A2D382279F1FFA00D47C3C /* UIStoryboard+Additions.swift in Sources */,
 				85A2D378279F1E7400D47C3C /* UIView+Additions.swift in Sources */,
-				85D3F5F9279F07EA00B229F1 /* ViewController.swift in Sources */,
+				85D3F5F9279F07EA00B229F1 /* NewsViewController.swift in Sources */,
 				85A2D393279F21BE00D47C3C /* UIButton+Additions.swift in Sources */,
 				85D3F5F5279F07EA00B229F1 /* AppDelegate.swift in Sources */,
 				85D3F5F7279F07EA00B229F1 /* SceneDelegate.swift in Sources */,
 				85A2D380279F1F6500D47C3C /* Constants.swift in Sources */,
 				85A2D384279F206700D47C3C /* UITableView+Additions.swift in Sources */,
+				85A2D39A279F270600D47C3C /* NewsTableViewCell.swift in Sources */,
+				85A2D396279F23FA00D47C3C /* NavigationController.swift in Sources */,
 				85A2D376279F1E4900D47C3C /* BaseView.swift in Sources */,
 				85A2D38C279F217200D47C3C /* BaseTableViewCell.swift in Sources */,
 				85A2D37B279F1EF600D47C3C /* LoadingView.swift in Sources */,
