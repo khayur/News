@@ -14,6 +14,7 @@ class NewsViewController: BaseViewController {
             newsTableView.delegate = self
             newsTableView.dataSource = self
             newsTableView.register(NewsTableViewCell.self)
+            newsTableView.rowHeight = UITableView.automaticDimension
         }
     }
     @IBOutlet weak var searchBar: UISearchBar!
@@ -33,6 +34,9 @@ class NewsViewController: BaseViewController {
     }
     
     private var newDate = DateManager.shared.getCurrentDate()
+    private var expandedIndexSet : IndexSet = []
+    private var searching = false
+    private var searchedNews = [Article]()
     
     //MARK: -Lifecycle
     override func viewDidLoad() {
@@ -40,7 +44,7 @@ class NewsViewController: BaseViewController {
         configureSearchBar()
         loadNews(from: previousDate, to: newDate, completion: nil)
         configureTableView()
-        cache.countLimit = 100
+        self.searchBar.showsCancelButton = true
     }
     
     //MARK: -Methods
@@ -86,7 +90,7 @@ class NewsViewController: BaseViewController {
         let from = sinceDate
         let to = tillDate
         let requestParameters = "?" + RequestParameters.question + "apple" + "&from=" + from + "&to=" + to + "&apiKey="
-        guard let url = URL(string: urlScheme + baseServerURL + endpointEverything + requestParameters + Constants.secondAPIKey) else { fatalError("Bad URL!") }
+        guard let url = URL(string: urlScheme + baseServerURL + endpointEverything + requestParameters + apiKey) else { fatalError("Bad URL!") }
         return url
     }
     
@@ -102,32 +106,60 @@ class NewsViewController: BaseViewController {
 //MARK: -TableViewDataSource Extension
 extension NewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        model?.articles.count ?? 0
+        if searching {
+            return searchedNews.count
+        } else {
+            return model?.articles.count ?? 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as NewsTableViewCell
         
         configureCell(cell: cell, forRowAt: indexPath)
+        
+        if expandedIndexSet.contains(indexPath.row) {
+            cell.bodyLabel.numberOfLines = 0
+        } else {
+            cell.bodyLabel.numberOfLines = 3
+        }
+        
         return cell
     }
     
     func configureCell(cell: NewsTableViewCell, forRowAt indexPath: IndexPath) {
-        guard let model = model,
-              let article = model.getArticle(fromPosition: indexPath.row),
-              let urlToImage = article.urlToImage,
-              let imageURL = URL(string: urlToImage),
-              let cacheKey = NSURL(string: urlToImage)
-        else { return }
-        
-        cell.coverImageView.image = UIImage(named: "placeholder")
-        cell.headerLabel.text = article.title
-        cell.bodyLabel.text = article.description
-        imageLoader.loadImage(from: imageURL) { [weak self] image in
-            guard let self = self, let image = image else { return }
-            cell.setCustomImage(image: image)
-            self.cache.setObject(image, forKey: cacheKey)
+        if searching {
+            let article = searchedNews[indexPath.row]
+            guard let urlToImage = article.urlToImage,
+                  let imageURL = URL(string: urlToImage),
+                  let cacheKey = NSURL(string: urlToImage)
+            else { return }
+            
+            cell.coverImageView.image = UIImage(named: "placeholder")
+            cell.headerLabel.text = article.title
+            cell.bodyLabel.text = article.description
+            imageLoader.loadImage(from: imageURL) { [weak self] image in
+                guard let self = self, let image = image else { return }
+                cell.setCustomImage(image: image)
+                self.cache.setObject(image, forKey: cacheKey)
+            }
+        } else {
+            guard let model = model,
+                  let article = model.getArticle(fromPosition: indexPath.row),
+                  let urlToImage = article.urlToImage,
+                  let imageURL = URL(string: urlToImage),
+                  let cacheKey = NSURL(string: urlToImage)
+            else { return }
+            cell.coverImageView.image = UIImage(named: "placeholder")
+            cell.headerLabel.text = article.title
+            cell.bodyLabel.text = article.description
+            imageLoader.loadImage(from: imageURL) { [weak self] image in
+                guard let self = self, let image = image else { return }
+                cell.setCustomImage(image: image)
+                self.cache.setObject(image, forKey: cacheKey)
+            }
         }
+        
     }
     
     internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -168,6 +200,9 @@ extension NewsViewController: UITableViewDataSource {
 
 //MARK: -TableViewDelegate Extension
 extension NewsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let model = model,
@@ -187,14 +222,39 @@ extension NewsViewController: UITableViewDelegate {
                 guard let self = self, let image = image else { return }
                 cell.setCustomImage(image: image)
                 self.cache.setObject(image, forKey: cacheKey)
-                
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if(expandedIndexSet.contains(indexPath.row)){
+            expandedIndexSet.remove(indexPath.row)
+        } else {
+            expandedIndexSet.insert(indexPath.row)
+        }
+        
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 
 //MARK: -SearchBar delegate extension
 
 extension NewsViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard let model = self.model else { return }
+
+        searchedNews = model.articles.filter({ article in
+            article.title.lowercased().contains(searchText.lowercased()) 
+        })
+        searching = true
+        newsTableView.reloadData()
+    }
     
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searching = false
+        searchBar.text = ""
+        newsTableView.reloadData()
+    }
 }
