@@ -10,7 +10,16 @@ import Foundation
 struct RequestParameters {
     static let question = "q="
     static let country = "country="
-    static let from = "Date.now -"
+    static func from(hoursAgo: Double) -> String {
+        "from=" + DateManager.shared.getDate(hoursAgo: hoursAgo)
+    }
+    static func from(daysAgo: Double) -> String {
+        "from=" + DateManager.shared.getDate(daysAgo: daysAgo)
+    }
+    static func to() -> String {
+        "to=" + DateManager.shared.getCurrentDate()
+    }
+    
 }
 
 enum Countries: String {

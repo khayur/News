@@ -52,7 +52,9 @@ class NewsViewController: BaseViewController {
         let baseServerURL = Constants.baseServerUrl
         let endpoint = Constants.endpointTopHeadlines
         let apiKey = Constants.APIKey
-        let requestParameters = "?" + RequestParameters.country + Countries.us.rawValue + "&apiKey="
+        let from = RequestParameters.from(hoursAgo: 24)
+        let to = RequestParameters.to()
+        let requestParameters = "?" + RequestParameters.country + Countries.us.rawValue + "&" + from + "&" + to + "&apiKey="
         guard let url = URL(string: urlScheme + baseServerURL + endpoint + requestParameters + apiKey) else { fatalError("Bad URL!") }
         
         self.showLoading()

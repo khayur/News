@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		85930CD3279F83E8009B5A95 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85930CD2279F83E8009B5A95 /* ImageLoader.swift */; };
+		85930CD727A061F1009B5A95 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85930CD627A061F1009B5A95 /* DateManager.swift */; };
 		85A2D376279F1E4900D47C3C /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2D375279F1E4900D47C3C /* BaseView.swift */; };
 		85A2D378279F1E7400D47C3C /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2D377279F1E7400D47C3C /* UIView+Additions.swift */; };
 		85A2D37B279F1EF600D47C3C /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2D37A279F1EF600D47C3C /* LoadingView.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		85930CD2279F83E8009B5A95 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		85930CD627A061F1009B5A95 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 		85A2D375279F1E4900D47C3C /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		85A2D377279F1E7400D47C3C /* UIView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		85A2D37A279F1EF600D47C3C /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				85A2D37F279F1F6500D47C3C /* Constants.swift */,
 				85A2D39C279F504800D47C3C /* RequestParameters.swift */,
+				85930CD627A061F1009B5A95 /* DateManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				85A2D393279F21BE00D47C3C /* UIButton+Additions.swift in Sources */,
 				85FF1C8B279F740600185EB8 /* BaseViewController.swift in Sources */,
 				85FF1C84279F588A00185EB8 /* NetworkManager.swift in Sources */,
+				85930CD727A061F1009B5A95 /* DateManager.swift in Sources */,
 				85D3F5F5279F07EA00B229F1 /* AppDelegate.swift in Sources */,
 				85D3F5F7279F07EA00B229F1 /* SceneDelegate.swift in Sources */,
 				85A2D380279F1F6500D47C3C /* Constants.swift in Sources */,
