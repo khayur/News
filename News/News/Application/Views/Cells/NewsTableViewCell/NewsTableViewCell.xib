@@ -9,51 +9,58 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="269" id="KGk-i7-Jjw" customClass="NewsTableViewCell" customModule="News" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="269"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="398" id="KGk-i7-Jjw" customClass="NewsTableViewCell" customModule="News" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="398"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="269"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="398"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="w7F-la-fyx">
-                        <rect key="frame" x="10" y="10" width="300" height="92"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="4KN-FB-oaI">
+                        <rect key="frame" x="10" y="10" width="300" height="344"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Header" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dwf-ya-7bk">
-                                <rect key="frame" x="0.0" y="0.0" width="56" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholdertext.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="NO9-dH-H2u">
-                                <rect key="frame" x="0.0" y="21.5" width="11" height="17.5"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="NO9-dH-H2u">
+                                <rect key="frame" x="0.0" y="22" width="300" height="300"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XbS-iZ-Lj5">
-                                <rect key="frame" x="0.0" y="40.5" width="39.5" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="0.0" y="327" width="300" height="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sZl-Hq-nLH">
-                                <rect key="frame" x="0.0" y="61" width="96.5" height="31"/>
+                        </subviews>
+                    </stackView>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="QCd-1S-4VS">
+                        <rect key="frame" x="10" y="359" width="300" height="34"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sZl-Hq-nLH">
+                                <rect key="frame" x="0.0" y="0.0" width="100" height="34"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Show more"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bLa-Ld-lx6">
+                                <rect key="frame" x="200" y="0.0" width="100" height="34"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
                         </subviews>
                     </stackView>
-                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bLa-Ld-lx6">
-                        <rect key="frame" x="247" y="112" width="67" height="31"/>
-                        <state key="normal" title="Button"/>
-                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="w7F-la-fyx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="2l7-rs-Ynw"/>
-                    <constraint firstAttribute="trailing" secondItem="w7F-la-fyx" secondAttribute="trailing" constant="10" id="3qt-ud-QkW"/>
-                    <constraint firstItem="bLa-Ld-lx6" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="10" id="HJl-7u-V5Q"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="bLa-Ld-lx6" secondAttribute="bottom" constant="10" id="IZg-F8-V9n"/>
-                    <constraint firstItem="w7F-la-fyx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="tw5-7o-mgp"/>
-                    <constraint firstItem="bLa-Ld-lx6" firstAttribute="top" secondItem="w7F-la-fyx" secondAttribute="bottom" constant="10" id="uni-86-xaN"/>
+                    <constraint firstItem="4KN-FB-oaI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="GF6-4r-Zze"/>
+                    <constraint firstItem="QCd-1S-4VS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="MjM-5D-TIm"/>
+                    <constraint firstAttribute="bottom" secondItem="QCd-1S-4VS" secondAttribute="bottom" constant="5" id="SBw-rL-ZSn"/>
+                    <constraint firstAttribute="trailing" secondItem="4KN-FB-oaI" secondAttribute="trailing" constant="10" id="Uvl-Im-OsO"/>
+                    <constraint firstItem="4KN-FB-oaI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="b1V-i2-62m"/>
+                    <constraint firstItem="QCd-1S-4VS" firstAttribute="top" secondItem="4KN-FB-oaI" secondAttribute="bottom" constant="5" id="eiR-nt-qpS"/>
+                    <constraint firstAttribute="trailing" secondItem="QCd-1S-4VS" secondAttribute="trailing" constant="10" id="kFs-v3-hf3"/>
+                    <constraint firstItem="QCd-1S-4VS" firstAttribute="top" secondItem="4KN-FB-oaI" secondAttribute="bottom" constant="5" id="pcV-I9-xMI"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -64,10 +71,10 @@
                 <outlet property="headerLabel" destination="dwf-ya-7bk" id="1Ue-s4-gnW"/>
                 <outlet property="showMoreButton" destination="sZl-Hq-nLH" id="GeK-Hm-F1f"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="189.17410714285714"/>
+            <point key="canvasLocation" x="137.68115942028987" y="231.69642857142856"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="placeholdertext.fill" catalog="system" width="80" height="128"/>
+        <image name="placeholder" width="300" height="300"/>
     </resources>
 </document>

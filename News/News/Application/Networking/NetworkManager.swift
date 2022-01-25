@@ -12,7 +12,9 @@ class NetworkManager {
     private init() {}
     
     func getArticles(with url: URL, completion: @escaping ([Article]?) -> ()) {
-        
+#if DEBUG
+print(url)
+#endif
         URLSession.shared.dataTask(with: url) { data, response, error in
             
             if let error = error {

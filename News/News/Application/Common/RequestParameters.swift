@@ -10,7 +10,7 @@ import Foundation
 struct RequestParameters {
     static let question = "q="
     static let country = "country="
-    static let from = Date.now - 7
+    static let from = "Date.now -"
 }
 
 enum Countries: String {
