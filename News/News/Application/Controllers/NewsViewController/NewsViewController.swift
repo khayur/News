@@ -24,6 +24,7 @@ class NewsViewController: BaseViewController {
     private let cache = NSCache<NSURL, UIImage>()
     private var networkManager = NetworkManager.shared
     private var imageLoader = ImageLoader.shared
+    private var dateManager = DateManager.shared
     private let refreshControl = UIRefreshControl()
     private var loadMoreStatus = false
     private var daysCounter = 1.0
@@ -86,12 +87,14 @@ class NewsViewController: BaseViewController {
         let to = tillDate
         let requestParameters = "?" + RequestParameters.question + "apple" + "&from=" + from + "&to=" + to + "&apiKey="
         guard let url = URL(string: urlScheme + baseServerURL + endpointEverything + requestParameters + Constants.secondAPIKey) else { fatalError("Bad URL!") }
-//        guard let url = URL(string: "https://newsapi.org/v2/everything?q=apple&from=2022-01-24&to=2022-01-24&sortBy=popularity&apiKey=721e808e7f364dd6a99bff14413a1919") else { fatalError("Bad URL!") }
         return url
     }
     
     //MARK: -Actions
     @objc func refresh(_ sender: AnyObject) {
+        self.model = nil
+        daysCounter = 1
+        newDate = dateManager.getCurrentDate()
         loadNews(from: previousDate, to: newDate,  completion: self.refreshControl.endRefreshing)
     }
 }
@@ -103,7 +106,6 @@ extension NewsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as NewsTableViewCell
         
         configureCell(cell: cell, forRowAt: indexPath)
@@ -147,7 +149,6 @@ extension NewsViewController: UITableViewDataSource {
         self.showLoading()
         self.newsTableView.tableFooterView?.isHidden = false
         loadMoreBegin( completionHandler: {
-            self.newsTableView.reloadData()
             self.loadMoreStatus = false
             self.hideLoading()
             self.newsTableView.tableFooterView?.isHidden = true
@@ -156,16 +157,11 @@ extension NewsViewController: UITableViewDataSource {
     }
     
     func loadMoreBegin(completionHandler: @escaping () -> ()) {
-        
-        print("loadmore")
         self.loadNews(from: previousDate, to: newDate, completion: nil)
-        print(self.model?.articles.count)
-        print("_______________________")
-//        sleep(2)
+        sleep(1)
         DispatchQueue.main.async {
             completionHandler()
         }
-        
     }
     
 }
