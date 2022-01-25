@@ -16,7 +16,7 @@ class LoadingView: BaseView {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        self.backgroundColor = .black.withAlphaComponent(0.8)
         containerView.applyShadow(corner: 4.0)
         alpha = 0.0
     }

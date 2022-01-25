@@ -19,14 +19,16 @@ print(url)
             
             if let error = error {
                 print(error.localizedDescription)
+                print("Error \(error)")
                 completion(nil)
             } else if let data = data {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let newsResponse = try? decoder.decode(NewsResponse.self, from: data)
                 completion(newsResponse?.articles)
+                print(response)
             }
-            
+        
         }.resume()
         
     }

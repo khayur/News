@@ -25,12 +25,19 @@ class NewsViewController: BaseViewController {
     private var networkManager = NetworkManager.shared
     private var imageLoader = ImageLoader.shared
     private let refreshControl = UIRefreshControl()
+    private var loadMoreStatus = false
+    private var daysCounter = 1.0
+    private var previousDate: String {
+        DateManager.shared.getDate(daysAgo: daysCounter)
+    }
+    
+    private var newDate = DateManager.shared.getCurrentDate()
     
     //MARK: -Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchBar()
-        loadNews(completion: nil)
+        loadNews(from: previousDate, to: newDate, completion: nil)
         configureTableView()
         cache.countLimit = 100
     }
@@ -42,26 +49,23 @@ class NewsViewController: BaseViewController {
     }
     
     private func configureTableView() {
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing News...")
         refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
         newsTableView.addSubview(refreshControl)
     }
     
-    private func loadNews(completion:  (()-> Void)?) {
-        let urlScheme = Constants.urlScheme
-        let baseServerURL = Constants.baseServerUrl
-        let endpoint = Constants.endpointTopHeadlines
-        let apiKey = Constants.APIKey
-        let from = RequestParameters.from(hoursAgo: 24)
-        let to = RequestParameters.to()
-        let requestParameters = "?" + RequestParameters.country + Countries.us.rawValue + "&" + from + "&" + to + "&apiKey="
-        guard let url = URL(string: urlScheme + baseServerURL + endpoint + requestParameters + apiKey) else { fatalError("Bad URL!") }
+    private func loadNews(from sinceDate: String, to tillDate: String, completion:  (()-> Void)?) {
+        let url = getURL(from: sinceDate, to: tillDate)
         
         self.showLoading()
         
         networkManager.getArticles(with: url) { articles in
             if let articles = articles {
-                self.model = ArticlesList(articles: articles)
+                if self.model == nil {
+                    self.model = ArticlesList(articles: articles)
+                } else {
+                    self.model?.articles.append(contentsOf: articles)
+                }
             }
             
             DispatchQueue.main.async {
@@ -72,9 +76,23 @@ class NewsViewController: BaseViewController {
         (completion ?? self.refreshControl.endRefreshing)()
     }
     
+    private func getURL(from sinceDate: String, to tillDate: String) -> URL {
+        let urlScheme = Constants.urlScheme
+        let baseServerURL = Constants.baseServerUrl
+        let endpointTopHeadlines = Constants.endpointTopHeadlines
+        let endpointEverything = Constants.endpointEverything
+        let apiKey = Constants.APIKey
+        let from = sinceDate
+        let to = tillDate
+        let requestParameters = "?" + RequestParameters.question + "apple" + "&from=" + from + "&to=" + to + "&apiKey="
+        guard let url = URL(string: urlScheme + baseServerURL + endpointEverything + requestParameters + Constants.secondAPIKey) else { fatalError("Bad URL!") }
+//        guard let url = URL(string: "https://newsapi.org/v2/everything?q=apple&from=2022-01-24&to=2022-01-24&sortBy=popularity&apiKey=721e808e7f364dd6a99bff14413a1919") else { fatalError("Bad URL!") }
+        return url
+    }
+    
     //MARK: -Actions
     @objc func refresh(_ sender: AnyObject) {
-        loadNews(completion: self.refreshControl.endRefreshing)
+        loadNews(from: previousDate, to: newDate,  completion: self.refreshControl.endRefreshing)
     }
 }
 
@@ -105,9 +123,49 @@ extension NewsViewController: UITableViewDataSource {
         cell.bodyLabel.text = article.description
         imageLoader.loadImage(from: imageURL) { [weak self] image in
             guard let self = self, let image = image else { return }
-                cell.setCustomImage(image: image)
-                self.cache.setObject(image, forKey: cacheKey)
+            cell.setCustomImage(image: image)
+            self.cache.setObject(image, forKey: cacheKey)
         }
+    }
+    
+    internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        let deltaOffset = maximumOffset - currentOffset
+        
+        if deltaOffset <= 0 {
+            loadMore()
+        }
+    }
+    
+    private func loadMore() {
+        guard !loadMoreStatus, daysCounter <= 7 else { return }
+        newDate = previousDate
+        daysCounter += 1
+        
+        self.loadMoreStatus = true
+        self.showLoading()
+        self.newsTableView.tableFooterView?.isHidden = false
+        loadMoreBegin( completionHandler: {
+            self.newsTableView.reloadData()
+            self.loadMoreStatus = false
+            self.hideLoading()
+            self.newsTableView.tableFooterView?.isHidden = true
+        })
+        
+    }
+    
+    func loadMoreBegin(completionHandler: @escaping () -> ()) {
+        
+        print("loadmore")
+        self.loadNews(from: previousDate, to: newDate, completion: nil)
+        print(self.model?.articles.count)
+        print("_______________________")
+//        sleep(2)
+        DispatchQueue.main.async {
+            completionHandler()
+        }
+        
     }
     
 }
@@ -131,9 +189,9 @@ extension NewsViewController: UITableViewDelegate {
         } else {
             imageLoader.loadImage(from: imageURL) { [weak self] image in
                 guard let self = self, let image = image else { return }
-                    cell.setCustomImage(image: image)
-                    self.cache.setObject(image, forKey: cacheKey)
-            
+                cell.setCustomImage(image: image)
+                self.cache.setObject(image, forKey: cacheKey)
+                
             }
         }
     }
