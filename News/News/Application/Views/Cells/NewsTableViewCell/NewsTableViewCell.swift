@@ -8,7 +8,12 @@
 import UIKit
 
 class NewsTableViewCell: BaseTableViewCell {
-
+//MARK: - Outlets
+    @IBOutlet weak var headerLabel: UILabel!
+    @IBOutlet weak var coverImageView: UIImageView!
+    @IBOutlet weak var bodyLabel: UILabel!
+    @IBOutlet weak var showMoreButton: UIButton!
+    @IBOutlet weak var addToFavouritesButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
