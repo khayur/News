@@ -41,7 +41,7 @@ class NavigationController: UINavigationController {
             design()
         }
     private func design() {
-        color = Constants.appMainColor
+        
 
         
         let appearanceOfNavBar = UINavigationBarAppearance()
