@@ -91,10 +91,11 @@ class NewsViewController: BaseViewController {
         let urlScheme = Constants.urlScheme
         let baseServerURL = Constants.baseServerUrl
         let endpointEverything = Constants.endpointEverything
-        let apiKey = Constants.thirdAPIKey//Constants.secondAPIKey//Constants.APIKey
+        let apiKey = Constants.fourthAPIKey//Constants.thirdAPIKey//Constants.secondAPIKey//Constants.APIKey
         let from = sinceDate
         let to = tillDate
-        let requestParameters = "?" + RequestParameters.question + "apple" + "&from=" + from + "&to=" + to + "&apiKey="
+        let searchedString = "apple"
+        let requestParameters = "?" + RequestParameters.question + searchedString + "&from=" + from + "&to=" + to + "&apiKey="
         guard let url = URL(string: urlScheme + baseServerURL + endpointEverything + requestParameters + apiKey) else { fatalError("Bad URL!") }
         return url
     }
