@@ -21,28 +21,26 @@ class SavedNewsViewController: BaseViewController {
     }
     
     //MARK: -Properties
-    //    var savedNews: [Article]?
-    var savedArticles = [NSManagedObject]()
-    var newsViewController: NewsViewController?
+    private var savedArticles = [NSManagedObject]()
+    private var imageLoader = ImageLoader.shared
     internal var cache = NSCache<NSURL, UIImage>()
+    
     
     //MARK: -Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchDataFromDB()
         print(cache)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         savedNewsTableView.reloadData()
-        
+        fetchDataFromDB()
     }
     
     //MARK: -Methods
     private func fetchDataFromDB(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
-        
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ArticleDB")
         request.returnsObjectsAsFaults = false
@@ -52,8 +50,28 @@ class SavedNewsViewController: BaseViewController {
                 savedArticles.append(data)
             }
         } catch {
-            print("Failed")
+            print("Failed fetching from DB")
         }
+    }
+    
+    private  func deleteArticleFromDB(article: NSManagedObject) {
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = delegate.persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ArticleDB")
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try managedContext.fetch(request)
+            for articleFromDB in result as! [NSManagedObject] {
+                if articleFromDB.value(forKey: "url") as? String == article.value(forKey: "url") as? String {
+                    try managedContext.delete(articleFromDB)
+                    try managedContext.save()
+                }
+            }
+        } catch {
+            print("Failed deleting from DB")
+        }
+        
+       
     }
     
     //MARK: -Actions
@@ -74,20 +92,33 @@ extension SavedNewsViewController: UITableViewDataSource {
     
     private func configureCell(cell: NewsTableViewCell, forRowAt indexPath: IndexPath) {
         let article = savedArticles[indexPath.row]
-        guard let imageURL = savedArticles[indexPath.row].value(forKey: "urlToImage") as? String,
-              let cacheKey = NSURL(string: imageURL)
+        guard let urlToImage = savedArticles[indexPath.row].value(forKey: "urlToImage") as? String,
+              let imageURL = URL(string: urlToImage),
+              let cacheKey = NSURL(string: urlToImage)
         else { return }
-    
+        
+        cell.addToFavouritesButton.tintColor = .red
+        cell.selectionStyle = .none
         if let cachedImage = self.cache.object(forKey: cacheKey) {
-            print("Success!!!!!")
-            print("Using a cached image for item: \(cacheKey)")
             cell.setCustomImage(image: cachedImage)
         } else {
-            cell.coverImageView.image = UIImage(named: "placeholder")
+            imageLoader.loadImage(from: imageURL) { [weak self] image in
+                guard let self = self, let image = image else { return }
+                cell.setCustomImage(image: image)
+                self.cache.setObject(image, forKey: cacheKey)
+            }
         }
         
         cell.headerLabel.text = article.value(forKey: "title") as? String
         cell.bodyLabel.text = article.value(forKey: "articleDescription") as? String
+        
+        cell.addToFavouritesButtonAction = { [unowned self] in
+            let index = indexPath.row
+            savedArticles.remove(at: index)
+            savedNewsTableView.deleteRows(at: [indexPath], with: .fade)
+            deleteArticleFromDB(article: article)
+            savedNewsTableView.reloadData()
+        }
         
         cell.showMoreClosure = { [unowned self] in
             cell.bodyLabel.numberOfLines = 0
@@ -113,23 +144,6 @@ extension SavedNewsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        guard let imageURL = savedArticles[indexPath.row].value(forKey: "urlToImage") as? String,
-//              let cacheKey = NSURL(string: imageURL)
-//        else { return }
-//        
-//        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as NewsTableViewCell
-//        
-//        if let cachedImage = self.cache.object(forKey: cacheKey) {
-//            print("Success!!!!!")
-//            print("Using a cached image for item: \(cacheKey)")
-//            cell.coverImageView.image = cachedImage
-//            tableView.reloadRows(at: [indexPath], with: .automatic)
-//        } else {
-////            imageLoader.loadImage(from: imageURL) { [weak self] image in
-////                guard let self = self, let image = image else { return }
-////                cell.setCustomImage(image: image)
-////                self.cache.setObject(image, forKey: cacheKey)
-////            }
-//        }
+
     }
 }

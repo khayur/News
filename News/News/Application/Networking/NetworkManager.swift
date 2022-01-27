@@ -13,7 +13,7 @@ class NetworkManager {
     
     func getArticles(with url: URL, completion: @escaping ([Article]?) -> ()) {
 #if DEBUG
-print(url)
+        print(url)
 #endif
         URLSession.shared.dataTask(with: url) { data, response, error in
             
@@ -27,8 +27,9 @@ print(url)
                 let newsResponse = try? decoder.decode(NewsResponse.self, from: data)
                 completion(newsResponse?.articles)
                 print(response)
+                
             }
-        
+            
         }.resume()
         
     }

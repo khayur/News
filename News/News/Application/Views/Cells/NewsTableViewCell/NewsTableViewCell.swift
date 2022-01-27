@@ -29,7 +29,7 @@ class NewsTableViewCell: BaseTableViewCell {
     var addToFavouritesButtonAction : (() -> ())?
     var showMoreClosure: (() -> ())?
     var showLessClosure: (() -> ())?
-    var isLiked = false
+    
     
     
     //MARK: -Methods
@@ -38,17 +38,6 @@ class NewsTableViewCell: BaseTableViewCell {
         aspectConstraint = nil
         self.coverImageView.image = nil
         self.addToFavouritesButton.addTarget(self, action: #selector(didPressAddToFavouritesButton(_:)), for: .touchUpInside)
-        
-        if isLiked {
-            addToFavouritesButton.setImage(UIImage(systemName: "star"), for: .normal)
-            addToFavouritesButton.setImage(UIImage(systemName: "star"), for: .highlighted)
-        } else {
-            addToFavouritesButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            addToFavouritesButton.setImage(UIImage(systemName: "star.fill"), for: .highlighted)
-        }
-        if !bodyLabel.isTruncated {
-            showMoreButton.isHidden = true
-        }
     }
     
     func setCustomImage(image: UIImage) {
@@ -76,16 +65,17 @@ class NewsTableViewCell: BaseTableViewCell {
     
     //MARK: -Actions
     @IBAction func didPressAddToFavouritesButton(_ sender: Any) {
+        addToFavouritesButton.pulsate()
         addToFavouritesButtonAction?()
     }
     
     @IBAction func didPressShowMoreButton(_ sender: Any) {
+        showMoreButton.pulsate()
         if bodyLabel.numberOfLines != 0 {
             showMoreClosure?()
         } else {
             showLessClosure?()
         }
-        
     }
     
 }

@@ -38,7 +38,7 @@ class NewsViewController: BaseViewController {
     private var newDate = DateManager.shared.getCurrentDate()
     private var searching = false
     private var searchedNews = [Article]()
-    private var savedNews = [Article]()
+ 
     
     
     //MARK: -Lifecycle
@@ -46,10 +46,14 @@ class NewsViewController: BaseViewController {
         super.viewDidLoad()
         configureSearchBar()
         loadNews(from: previousDate, to: newDate, completion: nil)
+        fetchDataFromDB()
         configureTableView()
         self.searchBar.showsCancelButton = true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        fetchDataFromDB()
+    }
     //MARK: -Methods
     private func configureSearchBar() {
         searchBar.delegate = self
@@ -75,7 +79,6 @@ class NewsViewController: BaseViewController {
                     self.model?.articles.append(contentsOf: articles)
                 }
             }
-            
             DispatchQueue.main.async {
                 self.newsTableView.reloadData()
                 self.hideLoading()
@@ -88,7 +91,7 @@ class NewsViewController: BaseViewController {
         let urlScheme = Constants.urlScheme
         let baseServerURL = Constants.baseServerUrl
         let endpointEverything = Constants.endpointEverything
-        let apiKey = Constants.secondAPIKey//Constants.APIKey
+        let apiKey = Constants.thirdAPIKey//Constants.secondAPIKey//Constants.APIKey
         let from = sinceDate
         let to = tillDate
         let requestParameters = "?" + RequestParameters.question + "apple" + "&from=" + from + "&to=" + to + "&apiKey="
@@ -96,7 +99,7 @@ class NewsViewController: BaseViewController {
         return url
     }
     
-   private func saveArticle(article: Article) {
+   private func saveArticleToDB(article: Article) {
        
        let appDelegate = UIApplication.shared.delegate as! AppDelegate
        let container = appDelegate.persistentContainer
@@ -116,14 +119,50 @@ class NewsViewController: BaseViewController {
        do {
           try managedContext.save()
          } catch {
-          print("Failed saving")
+          print("Failed saving to DB")
        }
-       
        savedArticles.append(articleDB)
-       
-       
     }
     
+    private func fetchDataFromDB(){
+        savedArticles.removeAll()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ArticleDB")
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try managedContext.fetch(request)
+            for data in result as! [NSManagedObject] {
+                savedArticles.append(data)
+            }
+        } catch {
+            print("Failed fetching from DB")
+        }
+    }
+    
+    private  func deleteArticleFromDB(article: Article) {
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = delegate.persistentContainer.viewContext
+
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ArticleDB")
+
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ArticleDB")
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try managedContext.fetch(request)
+            for articleFromDB in result as! [NSManagedObject] {
+                if articleFromDB.value(forKey: "url") as? String == article.url {
+                    try managedContext.delete(articleFromDB)
+                    try managedContext.save()
+                }
+            }
+        } catch {
+            print("Failed deleting from DB")
+        }
+        
+       
+    }
     //MARK: -Actions
     @objc func refresh(_ sender: AnyObject) {
         self.model = nil
@@ -134,7 +173,6 @@ class NewsViewController: BaseViewController {
     
     @IBAction func didPressFavouritesButton(_ sender: Any) {
         guard let vc = UIStoryboard.mainStoryboard.instantiateViewController(withIdentifier: typeName(SavedNewsViewController.self)) as? SavedNewsViewController else { fatalError() }
-        vc.newsViewController = self
         vc.cache = self.cache
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -157,61 +195,43 @@ extension NewsViewController: UITableViewDataSource {
     }
     
     func configureCell(cell: NewsTableViewCell, forRowAt indexPath: IndexPath) {
-        
+        cell.selectionStyle = .none
         if !cell.bodyLabel.isTruncated {
             cell.showMoreButton.tintColor = .clear
         }
         
         if searching {
             let article = searchedNews[indexPath.row]
-            guard let urlToImage = article.urlToImage,
-                  let imageURL = URL(string: urlToImage),
-                  let cacheKey = NSURL(string: urlToImage)
-            else { return }
-            
-            cell.coverImageView.image = UIImage(named: "placeholder")
-            cell.headerLabel.text = article.title
-            cell.bodyLabel.text = article.description
-            imageLoader.loadImage(from: imageURL) { [weak self] image in
-                guard let self = self, let image = image else { return }
-                cell.setCustomImage(image: image)
-                self.cache.setObject(image, forKey: cacheKey)
-            }
+            fiiCellInfoForArticle(cell: cell, article: article)
         } else {
             guard let model = model,
-                  let article = model.getArticle(fromPosition: indexPath.row),
-                  let urlToImage = article.urlToImage,
-                  let imageURL = URL(string: urlToImage),
-                  let cacheKey = NSURL(string: urlToImage)
+                  let article = model.getArticle(fromPosition: indexPath.row)
             else { return }
-            cell.coverImageView.image = UIImage(named: "placeholder")
-            cell.headerLabel.text = article.title
-            cell.bodyLabel.text = article.description
-            imageLoader.loadImage(from: imageURL) { [weak self] image in
-                guard let self = self, let image = image else { return }
-                cell.setCustomImage(image: image)
-                self.cache.setObject(image, forKey: cacheKey)
+            
+          fiiCellInfoForArticle(cell: cell, article: article)
+            
+            let isLiked = isArticleLiked(article: article)
+            
+            if isLiked {
+                cell.addToFavouritesButton.tintColor = .red
+            } else {
+                cell.addToFavouritesButton.tintColor = .tintColor
             }
         }
         
         cell.addToFavouritesButtonAction = { [unowned self] in
             guard let model = model,
-                  var article = model.getArticle(fromPosition: indexPath.row)
+                  let article = model.getArticle(fromPosition: indexPath.row)
             else { return }
+            let isLiked = isArticleLiked(article: article)
             
-            saveArticle(article: article)
-//        isLiked = !isLiked
-//            if !isLiked{
-//                cell.addToFavouritesButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-//                cell.addToFavouritesButton.setImage(UIImage(systemName: "star.fill"), for: .highlighted)
-//                article.isLiked = false
-//                self.unsaveArticle(from: cell, at: indexPath)
-//            } else {
-//                cell.addToFavouritesButton.setImage(UIImage(systemName: "star"), for: .normal)
-//                cell.addToFavouritesButton.setImage(UIImage(systemName: "star"), for: .highlighted)
-//                article.isLiked = true
-//                self.saveArticle(from: cell, at: indexPath)
-//            }
+            if isLiked {
+                cell.addToFavouritesButton.tintColor = .tintColor
+                deleteArticleFromDB(article: article)
+            } else {
+                cell.addToFavouritesButton.tintColor = .red
+                saveArticleToDB(article: article)
+            }
         }
         
         cell.showMoreClosure = { [unowned self] in
@@ -231,13 +251,32 @@ extension NewsViewController: UITableViewDataSource {
         
     }
     
-    func isInFavourites(article: Article, at cell: NewsTableViewCell) -> Bool {
-        for savedArticle in savedNews {
-            if cell.headerLabel.text == savedArticle.title {
-                return true
+    private func fiiCellInfoForArticle(cell: NewsTableViewCell, article: Article) {
+        guard let urlToImage = article.urlToImage,
+              let imageURL = URL(string: urlToImage),
+              let cacheKey = NSURL(string: urlToImage)
+        else { return }
+        
+        cell.coverImageView.image = UIImage(named: "placeholder")
+        cell.headerLabel.text = article.title
+        cell.bodyLabel.text = article.description
+        imageLoader.loadImage(from: imageURL) { [weak self] image in
+            guard let self = self, let image = image else { return }
+            cell.setCustomImage(image: image)
+            self.cache.setObject(image, forKey: cacheKey)
+        }
+    }
+    
+    private func isArticleLiked(article: Article) -> Bool {
+        guard !savedArticles.isEmpty else { return false}
+        let isLiked = false
+
+        for savedArticle in 0...savedArticles.count - 1 {
+            if article.url == savedArticles[savedArticle].value(forKey: "url") as? String {
+                return !isLiked
             }
         }
-        return false
+        return isLiked
     }
     
     internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
