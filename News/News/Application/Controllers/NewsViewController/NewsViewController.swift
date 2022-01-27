@@ -144,24 +144,20 @@ class NewsViewController: BaseViewController {
     private  func deleteArticleFromDB(article: Article) {
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = delegate.persistentContainer.viewContext
-
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ArticleDB")
-
+        
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ArticleDB")
         request.returnsObjectsAsFaults = false
         do {
             let result = try managedContext.fetch(request)
             for articleFromDB in result as! [NSManagedObject] {
                 if articleFromDB.value(forKey: "url") as? String == article.url {
-                    try managedContext.delete(articleFromDB)
+                    managedContext.delete(articleFromDB)
                     try managedContext.save()
                 }
             }
         } catch {
             print("Failed deleting from DB")
         }
-        
-       
     }
     //MARK: -Actions
     @objc func refresh(_ sender: AnyObject) {
@@ -196,6 +192,9 @@ extension NewsViewController: UITableViewDataSource {
     
     func configureCell(cell: NewsTableViewCell, forRowAt indexPath: IndexPath) {
         cell.selectionStyle = .none
+        cell.headerLabel.textColor = Constants.appFontMainColor
+        cell.bodyLabel.textColor = Constants.appFontSubColor
+        
         if !cell.bodyLabel.isTruncated {
             cell.showMoreButton.tintColor = .clear
         }

@@ -38,7 +38,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="pPl-K1-IEG">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="wXk-cY-VMN">
+                        <barButtonItem key="rightBarButtonItem" id="wXk-cY-VMN">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="5yx-js-vYU">
                                 <rect key="frame" x="302" y="5" width="92" height="34.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -54,12 +54,12 @@
                         <outlet property="favouritedNewsButton" destination="wXk-cY-VMN" id="RHq-s8-06g"/>
                         <outlet property="newsTableView" destination="EtZ-8H-CR3" id="3GM-Mv-QiJ"/>
                         <outlet property="searchBar" destination="aCN-me-Y06" id="kaJ-9z-EET"/>
-                        <segue destination="T5D-K4-oZp" kind="show" id="5uF-lJ-bt2"/>
+                        <segue destination="T5D-K4-oZp" kind="show" identifier="SavedNewsViewControllerSegue" id="5uF-lJ-bt2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="944.92753623188412" y="97.767857142857139"/>
+            <point key="canvasLocation" x="922" y="98"/>
         </scene>
         <!--Saved News View Controller-->
         <scene sceneID="lzT-qU-rhj">

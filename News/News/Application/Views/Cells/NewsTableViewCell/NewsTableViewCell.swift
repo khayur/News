@@ -60,7 +60,6 @@ class NewsTableViewCell: BaseTableViewCell {
         self.coverImageView.translatesAutoresizingMaskIntoConstraints = false
         self.coverImageView.clipsToBounds = true
         self.coverImageView.image = image
-        
     }
     
     //MARK: -Actions

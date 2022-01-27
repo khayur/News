@@ -26,8 +26,9 @@ class NetworkManager {
                 decoder.dateDecodingStrategy = .iso8601
                 let newsResponse = try? decoder.decode(NewsResponse.self, from: data)
                 completion(newsResponse?.articles)
-                print(response)
-                
+#if DEBUG
+                print(response as Any)
+#endif
             }
             
         }.resume()

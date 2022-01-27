@@ -29,7 +29,6 @@ class SavedNewsViewController: BaseViewController {
     //MARK: -Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(cache)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,15 +62,13 @@ class SavedNewsViewController: BaseViewController {
             let result = try managedContext.fetch(request)
             for articleFromDB in result as! [NSManagedObject] {
                 if articleFromDB.value(forKey: "url") as? String == article.value(forKey: "url") as? String {
-                    try managedContext.delete(articleFromDB)
+                    managedContext.delete(articleFromDB)
                     try managedContext.save()
                 }
             }
         } catch {
             print("Failed deleting from DB")
         }
-        
-       
     }
     
     //MARK: -Actions
@@ -141,9 +138,5 @@ extension SavedNewsViewController: UITableViewDataSource {
 extension SavedNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-
     }
 }
