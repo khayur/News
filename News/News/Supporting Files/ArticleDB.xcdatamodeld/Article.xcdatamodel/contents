@@ -10,6 +10,11 @@
         <attribute name="url" optional="YES" attributeType="String"/>
         <attribute name="urlToImage" optional="YES" attributeType="String"/>
         <relationship name="newRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SourceDB" inverseName="newRelationship" inverseEntity="SourceDB"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="url"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="SourceDB" representedClassName="SourceDB" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="String"/>

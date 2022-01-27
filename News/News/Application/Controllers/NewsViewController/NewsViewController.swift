@@ -111,13 +111,7 @@ class NewsViewController: BaseViewController {
        articleDB.setValue(article.publishedAt, forKey: "publishedAt")
        articleDB.setValue(article.url, forKey: "url")
        
-       container.loadPersistentStores {description, error in
-           if let error = error {
-               print("Core Data failed to load: \(error.localizedDescription)")
-               return
-           }
-           managedContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-       }
+       managedContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
            
        do {
           try managedContext.save()
