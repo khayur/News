@@ -44,6 +44,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="star" catalog="system"/>
+                                <connections>
+                                    <action selector="didPressFavouritesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tP3-8n-Dyz"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
@@ -51,11 +54,43 @@
                         <outlet property="favouritedNewsButton" destination="wXk-cY-VMN" id="RHq-s8-06g"/>
                         <outlet property="newsTableView" destination="EtZ-8H-CR3" id="3GM-Mv-QiJ"/>
                         <outlet property="searchBar" destination="aCN-me-Y06" id="kaJ-9z-EET"/>
+                        <segue destination="T5D-K4-oZp" kind="show" id="5uF-lJ-bt2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="944.92753623188412" y="97.767857142857139"/>
+        </scene>
+        <!--Saved News View Controller-->
+        <scene sceneID="lzT-qU-rhj">
+            <objects>
+                <viewController storyboardIdentifier="SavedNewsViewController" id="T5D-K4-oZp" customClass="SavedNewsViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GdS-Zm-SaO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="yuH-3t-tU7">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="jSq-kj-ZWG"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="jSq-kj-ZWG" firstAttribute="trailing" secondItem="yuH-3t-tU7" secondAttribute="trailing" id="NWx-4g-RaF"/>
+                            <constraint firstItem="jSq-kj-ZWG" firstAttribute="bottom" secondItem="yuH-3t-tU7" secondAttribute="bottom" id="Wa5-OZ-SNT"/>
+                            <constraint firstItem="yuH-3t-tU7" firstAttribute="leading" secondItem="jSq-kj-ZWG" secondAttribute="leading" id="kXU-KQ-i1z"/>
+                            <constraint firstItem="yuH-3t-tU7" firstAttribute="top" secondItem="jSq-kj-ZWG" secondAttribute="top" id="uW3-OB-BNP"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="dE9-4z-Q92"/>
+                    <connections>
+                        <outlet property="savedNewsTableView" destination="yuH-3t-tU7" id="qDI-nB-fjk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ys3-Ky-ktW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1684" y="98"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wka-Iu-Egh">

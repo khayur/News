@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		851AD6DB27A20A4C0010DB8F /* UILabel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AD6DA27A20A4C0010DB8F /* UILabel+Additions.swift */; };
+		851AD70127A217DB0010DB8F /* ArticleDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 851AD6FF27A217DB0010DB8F /* ArticleDB.xcdatamodeld */; };
 		85930CD3279F83E8009B5A95 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85930CD2279F83E8009B5A95 /* ImageLoader.swift */; };
 		85930CD727A061F1009B5A95 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85930CD627A061F1009B5A95 /* DateManager.swift */; };
+		85930CDA27A0AF0B009B5A95 /* SavedNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85930CD927A0AF0B009B5A95 /* SavedNewsViewController.swift */; };
 		85A2D376279F1E4900D47C3C /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2D375279F1E4900D47C3C /* BaseView.swift */; };
 		85A2D378279F1E7400D47C3C /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2D377279F1E7400D47C3C /* UIView+Additions.swift */; };
 		85A2D37B279F1EF600D47C3C /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2D37A279F1EF600D47C3C /* LoadingView.swift */; };
@@ -38,8 +41,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		851AD6DA27A20A4C0010DB8F /* UILabel+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Additions.swift"; sourceTree = "<group>"; };
+		851AD70027A217DB0010DB8F /* Article.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Article.xcdatamodel; sourceTree = "<group>"; };
 		85930CD2279F83E8009B5A95 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		85930CD627A061F1009B5A95 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
+		85930CD927A0AF0B009B5A95 /* SavedNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedNewsViewController.swift; sourceTree = "<group>"; };
 		85A2D375279F1E4900D47C3C /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		85A2D377279F1E7400D47C3C /* UIView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		85A2D37A279F1EF600D47C3C /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -87,6 +93,14 @@
 				85D3F5F8279F07EA00B229F1 /* NewsViewController.swift */,
 			);
 			path = NewsViewController;
+			sourceTree = "<group>";
+		};
+		85930CD827A0AEDD009B5A95 /* SavedNewsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				85930CD927A0AF0B009B5A95 /* SavedNewsViewController.swift */,
+			);
+			path = SavedNewsViewController;
 			sourceTree = "<group>";
 		};
 		85A2D379279F1EC600D47C3C /* LoadingView */ = {
@@ -207,6 +221,7 @@
 				85FF1C89279F73EC00185EB8 /* BaseViewController */,
 				85A2D394279F23C600D47C3C /* NavigationController */,
 				85930CD427A045FD009B5A95 /* NewsViewController */,
+				85930CD827A0AEDD009B5A95 /* SavedNewsViewController */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -237,6 +252,7 @@
 				85D3F5FD279F07EC00B229F1 /* Assets.xcassets */,
 				85D3F5F4279F07EA00B229F1 /* AppDelegate.swift */,
 				85D3F5F6279F07EA00B229F1 /* SceneDelegate.swift */,
+				851AD6FF27A217DB0010DB8F /* ArticleDB.xcdatamodeld */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -257,6 +273,7 @@
 				85A2D381279F1FFA00D47C3C /* UIStoryboard+Additions.swift */,
 				85A2D383279F206700D47C3C /* UITableView+Additions.swift */,
 				85A2D392279F21BE00D47C3C /* UIButton+Additions.swift */,
+				851AD6DA27A20A4C0010DB8F /* UILabel+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -354,11 +371,13 @@
 			files = (
 				85A2D382279F1FFA00D47C3C /* UIStoryboard+Additions.swift in Sources */,
 				85A2D378279F1E7400D47C3C /* UIView+Additions.swift in Sources */,
+				851AD6DB27A20A4C0010DB8F /* UILabel+Additions.swift in Sources */,
 				85930CD3279F83E8009B5A95 /* ImageLoader.swift in Sources */,
 				85D3F5F9279F07EA00B229F1 /* NewsViewController.swift in Sources */,
 				85A2D393279F21BE00D47C3C /* UIButton+Additions.swift in Sources */,
 				85FF1C8B279F740600185EB8 /* BaseViewController.swift in Sources */,
 				85FF1C84279F588A00185EB8 /* NetworkManager.swift in Sources */,
+				851AD70127A217DB0010DB8F /* ArticleDB.xcdatamodeld in Sources */,
 				85930CD727A061F1009B5A95 /* DateManager.swift in Sources */,
 				85D3F5F5279F07EA00B229F1 /* AppDelegate.swift in Sources */,
 				85D3F5F7279F07EA00B229F1 /* SceneDelegate.swift in Sources */,
@@ -371,6 +390,7 @@
 				85A2D38C279F217200D47C3C /* BaseTableViewCell.swift in Sources */,
 				85FF1C88279F72AF00185EB8 /* ArticlesList.swift in Sources */,
 				85FF1C86279F5AF800185EB8 /* ArticlesParser.swift in Sources */,
+				85930CDA27A0AF0B009B5A95 /* SavedNewsViewController.swift in Sources */,
 				85A2D37B279F1EF600D47C3C /* LoadingView.swift in Sources */,
 				85A2D390279F218500D47C3C /* EmptyTableViewCell.swift in Sources */,
 			);
@@ -592,6 +612,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		851AD6FF27A217DB0010DB8F /* ArticleDB.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				851AD70027A217DB0010DB8F /* Article.xcdatamodel */,
+			);
+			currentVersion = 851AD70027A217DB0010DB8F /* Article.xcdatamodel */;
+			path = ArticleDB.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 85D3F5E9279F07E900B229F1 /* Project object */;
 }

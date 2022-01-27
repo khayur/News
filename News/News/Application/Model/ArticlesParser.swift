@@ -27,11 +27,13 @@ struct Article: Codable {
     let urlToImage: String?
     let publishedAt: Date
     let content: String?
+    var isLiked: Bool? = false
 
     enum CodingKeys: String, CodingKey {
         case source, author, title
         case description
         case url, urlToImage, publishedAt, content
+             case isLiked
     }
 }
 

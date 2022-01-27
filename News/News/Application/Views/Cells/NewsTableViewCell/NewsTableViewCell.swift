@@ -26,12 +26,29 @@ class NewsTableViewCell: BaseTableViewCell {
             }
         }
     }
+    var addToFavouritesButtonAction : (() -> ())?
+    var showMoreClosure: (() -> ())?
+    var showLessClosure: (() -> ())?
+    var isLiked = false
+    
     
     //MARK: -Methods
     override func prepareForReuse() {
         super.prepareForReuse()
         aspectConstraint = nil
         self.coverImageView.image = nil
+        self.addToFavouritesButton.addTarget(self, action: #selector(didPressAddToFavouritesButton(_:)), for: .touchUpInside)
+        
+        if isLiked {
+            addToFavouritesButton.setImage(UIImage(systemName: "star"), for: .normal)
+            addToFavouritesButton.setImage(UIImage(systemName: "star"), for: .highlighted)
+        } else {
+            addToFavouritesButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            addToFavouritesButton.setImage(UIImage(systemName: "star.fill"), for: .highlighted)
+        }
+        if !bodyLabel.isTruncated {
+            showMoreButton.isHidden = true
+        }
     }
     
     func setCustomImage(image: UIImage) {
@@ -39,7 +56,7 @@ class NewsTableViewCell: BaseTableViewCell {
         let aspect = image.size.width / image.size.height
         
         let constraint = NSLayoutConstraint(
-            item: coverImageView,
+            item: coverImageView as UIImageView,
             attribute: .width,
             relatedBy: .equal,
             toItem: coverImageView,
@@ -56,5 +73,20 @@ class NewsTableViewCell: BaseTableViewCell {
         self.coverImageView.image = image
         
     }
+    
+    //MARK: -Actions
+    @IBAction func didPressAddToFavouritesButton(_ sender: Any) {
+        addToFavouritesButtonAction?()
+    }
+    
+    @IBAction func didPressShowMoreButton(_ sender: Any) {
+        if bodyLabel.numberOfLines != 0 {
+            showMoreClosure?()
+        } else {
+            showLessClosure?()
+        }
+        
+    }
+    
 }
 
