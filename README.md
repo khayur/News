@@ -1,5 +1,6 @@
 # News
 List of news from https://newsapi.org/
+
 version: 1.0.0
 # Screenshots
 <img width="233" alt="image" src="https://user-images.githubusercontent.com/89098576/151291766-52ae85d2-ad84-4859-b041-bf7715762978.png">
